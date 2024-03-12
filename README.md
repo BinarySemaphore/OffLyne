@@ -141,3 +141,4 @@ $ python3
 # Run
 * sudo apachectl start
   * stop or restart allowed
+* Logs at `less /var/log/apache2/offlyne_*.log`
