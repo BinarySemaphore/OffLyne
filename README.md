@@ -82,6 +82,8 @@ network:
 ### Add OffLyne
 * Clone main branch from OffLyne
   * Note: if adding to `/home/*/` then make sure to `chmod +x -R /home/<user>`
+* Update __ALLOWED_HOSTS__ in `offlyne/settings.py`
+  * Add second interface, host-only, IP address or anything else as needed
 
 ### Configure Apache Site
 * Add following to `/etc/apache2/apache2.conf`
