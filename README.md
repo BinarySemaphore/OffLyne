@@ -14,7 +14,7 @@ Note: This is temporary VM setup during development; planning to change to a doc
 
 ### Create VM
 * Use ISO and VM manager to create VM
-* Install Ubuntu Server minimum (ensure SSH and Python3 is included)
+* Install Ubuntu Server minimum (Check OpenSSH pre-install)
 * Shutdown VM
 * Add host-only or equivalent network adapter (will configure later)
 * NAT adapter add port forwarding host 2222 and guest 22 for SSH access from Host
@@ -45,9 +45,10 @@ fi
   * Recommend following [this](https://ubuntu.com/tutorials/install-and-configure-apache#1-overview)
   * `sudo apt install apache2 apache2-dev`
 * [mod_wsgi](https://modwsgi.readthedocs.io/en/master/index.html)
-  * `pip install mod_wsgi`
+  * `sudo pip install mod_wsgi`
+  * `sudo mod_wsgi-express install-module`
 * [Django]()
-  * `pip install django`
+  * `sudo pip install django`
 
 ### Configure VM Interfaces
 * NAT
@@ -75,6 +76,7 @@ network:
       addresses:
         - 192.168.56.101/24
 ```
+    * Set `/etc/netplan/01-host-config.yaml` permissions with `sudo chmod 600 /etc/netplan/01-host-config.yaml`
 * Apply Changes
   * `sudo netplan apply`
   * Confirm
@@ -82,11 +84,12 @@ network:
 
 ### Add OffLyne
 * Clone main branch from OffLyne
-  * Note: if adding to `/home/*/` then make sure to `chmod +x -R /home/<user>`
+  * Note: if adding to a `/home` directory then make sure to `chmod +x -R /home/<user>`
 * Update __ALLOWED_HOSTS__ in `offlyne/settings.py`
   * Add second interface, host-only, IP address or anything else as needed
 
 ### Configure Apache Site
+Note: must be root to modify these apache files
 * Add following to `/etc/apache2/apache2.conf`
   * Get **wsgi_module** location with `mod_wsgi-express module-location`
 ```
@@ -134,3 +137,7 @@ $ python3
         CustomLog ${APACHE_LOG_DIR}/offlyne_access.log combined
 </VirtualHost>
 ```
+
+# Run
+* sudo apachectl start
+  * stop or restart allowed
