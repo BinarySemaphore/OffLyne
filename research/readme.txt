@@ -1,0 +1,1 @@
+Active log capture and wireshark captures ignored for now (until cleaned for safety)

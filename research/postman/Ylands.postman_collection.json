@@ -1,0 +1,112 @@
+{
+	"info": {
+		"_postman_id": "129464a0-4fe3-4689-a9ea-5a213a5cd390",
+		"name": "Ylands",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Token",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"client_id\": \"$ff0e21cf713256319d6b7141527ee49\",\r\n    \"session_ticket\": \"a\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.bistudio.com/user/api/v1.0/steam/token",
+					"protocol": "https",
+					"host": [
+						"api",
+						"bistudio",
+						"com"
+					],
+					"path": [
+						"user",
+						"api",
+						"v1.0",
+						"steam",
+						"token"
+					],
+					"query": [
+						{
+							"key": "client_id",
+							"value": "$ff0e21cf713256319d6b7141527ee49",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.bistudio.com/user/api/v1.0/user?client_id=\\257074",
+					"protocol": "https",
+					"host": [
+						"api",
+						"bistudio",
+						"com"
+					],
+					"path": [
+						"user",
+						"api",
+						"v1.0",
+						"user"
+					],
+					"query": [
+						{
+							"key": "client_id",
+							"value": "\\257074"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "userScenarios/getLocks",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"accessToken\": \"d6febc17c54a1c3eaca48f4126b8cf2199d521d5660a51d285881df31b99ea58efb19fd5e1772ce949e0f8291c3c9506\",\r\n    \"scenarioDataType\": \"SinglePlayer\",\r\n    \"storageIds\": [\"7a654009-2575-4423-a9d9-679f9732d648\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://ylands-api.bistudio.com/ylands-api/api/v1.0/ylands-lobby/userScenarios/getLocks",
+					"protocol": "https",
+					"host": [
+						"ylands-api",
+						"bistudio",
+						"com"
+					],
+					"path": [
+						"ylands-api",
+						"api",
+						"v1.0",
+						"ylands-lobby",
+						"userScenarios",
+						"getLocks"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
