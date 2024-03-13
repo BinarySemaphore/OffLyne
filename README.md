@@ -1,7 +1,18 @@
 # OffLyne
 Offline server for Ylands to play locally or if servers are dead.
 
-WARNING: only use on an account or copy of the game you're not planning on reconnecting to official servers again.
+__WARNING__: only use on an account or copy of the game you're not planning on reconnecting to official servers again.
+
+# Contents
+* [Setup](#setup)
+  * [Setup VM Server](#setup-vm-server)
+    * [Download](#download)
+    * [Create VM](#create-vm)
+    * [Install Prereqs on VM](#install-prereqs-on-vm)
+    * [Configure VM Interfaces](#configure-vm-interfaces)
+  * [Add OffLyne](#add-offlyne)
+  * [Configure Apache Site](#configure-apache-site)
+* [Run](#run)
 
 # Setup
 Note: This is temporary VM setup during development; planning to change to a docker container for easier deployment.
@@ -69,6 +80,7 @@ network:
     * Find `enp0s#` which either has no address or one within the DHCP range of the host-only adapter.
       * This will be used in `01-host-config.yaml` below
   * Create `/etc/netplan/01-host-config.yaml`, replace __enp0s8__ and __192.168.56.101/24__ as needed:
+    * Set `/etc/netplan/01-host-config.yaml` permissions with `sudo chmod 600 /etc/netplan/01-host-config.yaml`
 ```
 network:
   ethernets:
@@ -76,19 +88,18 @@ network:
       addresses:
         - 192.168.56.101/24
 ```
-    * Set `/etc/netplan/01-host-config.yaml` permissions with `sudo chmod 600 /etc/netplan/01-host-config.yaml`
 * Apply Changes
   * `sudo netplan apply`
   * Confirm
     * `ip addr show`
 
-### Add OffLyne
+## Add OffLyne
 * Clone main branch from OffLyne
   * Note: if adding to a `/home` directory then make sure to `chmod +x -R /home/<user>`
 * Update __ALLOWED_HOSTS__ in `offlyne/settings.py`
   * Add second interface, host-only, IP address or anything else as needed
 
-### Configure Apache Site
+## Configure Apache Site
 Note: must be root to modify these apache files
 * Add following to `/etc/apache2/apache2.conf`
   * Get **wsgi_module** location with `mod_wsgi-express module-location`
