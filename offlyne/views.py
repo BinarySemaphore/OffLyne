@@ -4,6 +4,7 @@ import json
 
 from django.http import HttpResponse
 
+from .settings import BASE_DIR
 
 def request_logger(request):
     filename = "{}.log".format(time.strftime("%Y_%m_%d"))
@@ -14,7 +15,7 @@ def request_logger(request):
     block += "Headers:\n{}\n".format(request.headers)
     block += "Cookies:\n{}\n".format(request.COOKIES)
     
-    with open(os.path.join('captures', filename), 'a') as f:
+    with open(os.path.join(BASE_DIR, 'captures', filename), 'a') as f:
         f.write(block + '-' * 80 + '\n\n')
     
     return HttpResponse("")
