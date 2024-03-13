@@ -11,11 +11,11 @@ __WARNING__: only use on an account or copy of the game you're not planning on r
     * [Install Prereqs on VM](#install-prereqs-on-vm)
     * [Configure VM Interfaces](#configure-vm-interfaces)
   * [Add OffLyne](#add-offlyne)
-  * [Allow Writing to Captures](allow-writing-to-captures)
+  * [Allow Writing to Captures](#allow-writing-to-captures)
   * [Configure Apache Site](#configure-apache-site)
   * [Enabling HTTPS](#enabling-https)
 * [Run](#run)
-  * [Redirect for Windows](redirect-for-windows)
+  * [Redirect for Windows](#redirect-for-windows)
 * [Notes](#notes)
 
 # Setup
