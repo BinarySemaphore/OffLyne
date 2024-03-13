@@ -11,8 +11,12 @@ __WARNING__: only use on an account or copy of the game you're not planning on r
     * [Install Prereqs on VM](#install-prereqs-on-vm)
     * [Configure VM Interfaces](#configure-vm-interfaces)
   * [Add OffLyne](#add-offlyne)
+  * [Allow Writing to Captures](allow-writing-to-captures)
   * [Configure Apache Site](#configure-apache-site)
+  * [Enabling HTTPS](#enabling-https)
 * [Run](#run)
+  * [Redirect for Windows](redirect-for-windows)
+* [Notes](#notes)
 
 # Setup
 Note: This is temporary VM setup during development; planning to change to a docker container for easier deployment.
@@ -99,6 +103,13 @@ network:
 * Update __ALLOWED_HOSTS__ in `offlyne/settings.py`
   * Add second interface, host-only, IP address or anything else as needed
 
+## Allow Writing to Captures
+```
+cd OffLyne
+mkdir captures
+sudo chown -R www-data:www-data captures/
+```
+
 ## Configure Apache Site
 Note: must be root to modify these apache files
 * Add following to `/etc/apache2/apache2.conf`
@@ -149,7 +160,48 @@ $ python3
 </VirtualHost>
 ```
 
+## Enabling HTTPS
+* Create CSR keys
+  * Input anything or use defaults, __Common Name__ must match __ServerName__
+```
+openssl genrsa -out site.key 2048
+openssl req -new -x509 -key site.key -out site.pem -days 1095
+sudo chown root:root site.key site.pem
+sudo mv site.key /etc/ssl/private/
+sudo mv site.pem /etc/ssl/certs/
+sudo a2enmod ssl
+```
+* Edit `/etc/apache2/sites-enabled/000-default.conf`
+  * Add to top
+```
+<VirtualHost *:80>
+   ServerName api.bistudio.com
+   Redirect permanent / https://api.bistudio.com/
+</VirtualHost>
+```
+  * Change second VirtualHost to 443 and add
+```
+ServerName api.bistudio.com
+
+SSLEngine on
+SSLCertificateFile "/etc/ssl/certs/offlyne.pem"
+SSLCertificateKeyFile "/etc/ssl/private/offlyne.key"
+```
+
+
 # Run
 * sudo apachectl start
   * stop or restart allowed
 * Logs at `less /var/log/apache2/offlyne_*.log`
+
+## Redirect for Windows
+* Open `C:\Windows\System32\drivers\etc\hosts` as admin in text editor
+```
+	192.168.56.101 api.bistudio.com
+	192.168.56.101 ylands-api.bistudio.com
+```
+
+# Notes
+* Yland WinApp logs: `C:\Users\<user>\AppData\Local\Packages\BohemiaInteractivea.s.Ylands_ezkh2j9f9meea\TempState`
+* With HTTPS and redirect Ylands is cert aware and will throw `Curl error 7: Failed to connect to api.bistudio.com port 443 after 0 ms: Bad access`
+  * Need to inspect/inject host key somehow or exploit curl usage...
